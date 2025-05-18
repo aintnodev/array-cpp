@@ -1,34 +1,49 @@
 #include <iostream>
-#include <vector>
 
 int main() {
   const int ARR_SIZE = 9;
   int arr[ARR_SIZE] = {9, 4, -2, -1, 5, 0, -5, -3, 2};
-  std::vector<int> pos_arr, neg_arr, res_arr;
+  int pos = 0, res[ARR_SIZE];
 
   for (int i = 0; i < ARR_SIZE; i++) {
     if (arr[i] >= 0) {
-      pos_arr.push_back(arr[i]);
-    } else {
-      neg_arr.push_back(arr[i]);
+      pos++;
     }
   }
 
+  int *pos_arr = new int[pos];
+  int *neg_arr = new int[ARR_SIZE - pos];
+
   int i = 0, j = 0;
-  while (i < pos_arr.size() && j < neg_arr.size()) {
-    res_arr.push_back(pos_arr[i++]);
-    res_arr.push_back(neg_arr[j++]);
+
+  for (int k = 0; k < ARR_SIZE; k++) {
+    if (arr[k] >= 0) {
+      pos_arr[i++] = arr[k];
+    } else {
+      neg_arr[j++] = arr[k];
+    }
   }
 
-  while (i < pos_arr.size())
-    res_arr.push_back(pos_arr[i++]);
+  i = 0, j = 0;
+  int k = 0;
 
-  while (j < neg_arr.size())
-    res_arr.push_back(neg_arr[j++]);
+  while (i < pos && j < ARR_SIZE - pos) {
+    res[k++] = pos_arr[i++];
+    res[k++] = neg_arr[j++];
+  }
+
+  while (i < pos)
+    res[k++] = pos_arr[i++];
+
+  while (j < ARR_SIZE - pos)
+    res[k++] = neg_arr[j++];
+
+  delete[] pos_arr;
+  delete[] neg_arr;
 
   for (int i = 0; i < ARR_SIZE; i++) {
-    std::cout << res_arr[i];
-    if (i == res_arr.size() - 1) {
+    std::cout << res[i];
+    if (i == ARR_SIZE - 1) {
       std::cout << "\n";
     } else {
       std::cout << ", ";
